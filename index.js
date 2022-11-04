@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors"
 
+let conta
+
 const tweets = [
   {
     username: "bobesponja",
@@ -21,8 +23,9 @@ const app = express();
 app.use(cors());
 app.use(express.json())
 
-app.get("/", (req, res) => {
-  res.send("foi");
+app.post("/sign-up", (req, res) => {
+  conta = req.body
+  res.send("foi")
 });
 
 app.get("/tweets", (req, res) => {
@@ -30,7 +33,19 @@ app.get("/tweets", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-  tweets.push(req.body);
+
+  const {tweet} = req.body
+  const {username, avatar} = conta
+
+  if(req.body.tweet.length === 0) {
+    return res.sendStatus(400)
+  }
+
+  tweets.push({
+    username,
+    avatar,
+    tweet,
+  });
   res.send("OK");
 });
 
