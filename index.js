@@ -18,10 +18,20 @@ const tweets = [
 
 const app = express();
 
-app.use(cors())
+app.use(cors());
+app.use(express.json())
+
+app.get("/", (req, res) => {
+  res.send("foi");
+});
 
 app.get("/tweets", (req, res) => {
-    res.send(tweets)
+  res.send(tweets);
+});
+
+app.post("/tweets", (req, res) => {
+  tweets.push(req.body);
+  res.send("OK");
 });
 
 app.listen(5000);
